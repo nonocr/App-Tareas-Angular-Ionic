@@ -1,0 +1,7 @@
+{
+  "name": "mi-app-tareas",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

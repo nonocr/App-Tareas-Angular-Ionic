@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Mis tareas ({{ pendientes() }} pendientes)</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="mostrarForm = !mostrarForm">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+ 
+ 
+<ion-content class="ion-padding">
+ 
+  <!-- Formulario para nueva tarea -->
+  <ion-card *ngIf="mostrarForm">
+    <ion-card-header>
+      <ion-card-title>Nueva Tarea</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">Título*</ion-label>
+        <ion-input [(ngModel)]="nuevaTarea" placeholder="Ej: Comprar leche"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Descripción (opcional)</ion-label>
+        <ion-input [(ngModel)]="nuevaDesc"></ion-input>
+      </ion-item>
+      <ion-button expand="block" (click)="agregar()" class="ion-margin-top">Guardar tarea</ion-button>
+    </ion-card-content>
+  </ion-card>
+ 
+  <!-- Mensaje cuando no hay tareas -->
+  <div *ngIf="tareas.length === 0" class="empty-state">
+    <ion-icon name="checkmark-done-outline"></ion-icon>
+    <p>¡No hay tareas pendientes!</p>
+  </div>
+ 
+  <!-- Lista de tareas -->
+  <ion-list>
+    <ion-item-sliding *ngFor="let tarea of tareas">
+ 
+      <ion-item [class.cpmpletada]="tarea.completada">
+        <ion-checkbox slot="start" [checked]="tarea.completada" (ionChange)="toogle(tarea.id)"></ion-checkbox>
+        <ion-label>
+          <h2>{{ tarea.titulo }}</h2>
+          <p *ngIf="tarea.descripcion">{{ tarea.descripcion }}</p>
+        </ion-label>
+      </ion-item>
+ 
+      <!-- Acción deslizar para eliminar -->
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="eliminar(tarea.id)">
+          <ion-icon name="trash-outline"></ion-icon>
+          Eliminar
+        </ion-item-option>
+      </ion-item-options>
+ 
+    </ion-item-sliding>
+  </ion-list>
+ 
+</ion-content>
